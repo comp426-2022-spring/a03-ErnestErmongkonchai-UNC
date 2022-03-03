@@ -40,6 +40,7 @@ function countFlips(array) {
         tails++;
       }
     });
+
     if(heads == 0 && tails != 0) {
       return { tails: tails };
     } else if(heads != 0 && tails == 0) {
@@ -49,6 +50,7 @@ function countFlips(array) {
     } else {
       return {};
     }
+    
     return flipcount;
 }
 
@@ -80,24 +82,21 @@ app.get('/app/', (req,res) => {
 
 app.get('/app/flip', (req,res) => {
     res.send({flip: coinFlip()})
-})
+});
 
 app.get('/app/flips/:number', (req,res) => {
-    // expression
     res.send(coinFlips(req.params.number))
 });
 
 app.get('/app/flips/call/heads', (req,res) => {
-    // expression
     res.status(200).json(flipACoin("heads"))
 });
 
 app.get('/app/flips/call/tails', (req,res) => {
-    // expression
     res.status(200).json(flipACoin("tails"))
 });
 
 // Default response for any other request
 app.use(function(req,res) {
     res.status(404).send('404 NOT FOUND')
-})
+});
