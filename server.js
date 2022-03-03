@@ -12,63 +12,51 @@ const server = app.listen(port, () => {
 });
 
 function coinFlip() {
-    if(Math.random() < 0.5) {
-      return "heads";
-    }
-    
-    return "tails";
+    return (Math.random() > 0.5 ? "heads" : "tails");
 }
 
 function coinFlips(flips) {
-    let results = [];
+    const flipResults = [];
+    const output = { raw: [], summary: "" };
   
-    for(let i=0; i<flips; i++) {
-      results.push(coinFlip());
+    for (var i = 0; i < flips; i++) {
+        flipResults.push(coinFlip());
     }
   
-    return results;
+    output.raw = flipResults;
+    output.summary = countFlips(flipResults);
+  
+    return output;
 }
 
 function countFlips(array) {
-    let tails = 0;
-    let heads = 0;
-  
+    var counts = { heads: 0, tails: 0 };
+
     array.forEach(element => {
-      if(element == "heads") {
-        heads++;
-      } else if(element == "tails") {
-        tails++;
-      }
+        if (element == "heads")
+            counts.heads++;
+        else
+            counts.tails++;
     });
 
-    if(heads == 0 && tails != 0) {
-      return { tails: tails };
-    } else if(heads != 0 && tails == 0) {
-      return { heads: heads};
-    } else if(heads != 0 && tails != 0) {
-      return { heads: heads, tails: tails}
-    } else {
-      return {};
-    }
+    if (counts.heads == 0)
+        delete counts.heads;
+    else if (counts.tails == 0)
+        delete counts.tails;
 
-    return flipcount;
+    return counts;
 }
 
 function flipACoin(call) {
-    let flip = coinFlip();
-    let result = "lose";
-  
-    if(flip == call) {
-      result = "win";
-    }
-  
-    const summary = {
-      call: call,
-      flip: flip,
-      result: result
-    }
-  
-    return summary
+    var result = coinFlip();
+
+    const output = { call: "", flip: "", result: "" };
+
+    output.call = call;
+    output.flip = result;
+    output.result = (call == result ? "win" : "lose");
+
+    return output;
 }
 
 app.get('/app/', (req,res) => {
