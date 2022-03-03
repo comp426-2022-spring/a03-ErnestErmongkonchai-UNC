@@ -11,6 +11,15 @@ const server = app.listen(port, () => {
     console.log('App listening on port %PORT%'.replace('%PORT%',port))
 });
 
+app.get('/app/', (req,res) => {
+    // Respond with status 200
+    res.statusCode = 200;
+    // Respond with status message "OK"
+    res.statusMessage = 'OK';
+    res.writeHead(res.statusCode, {'Content-Type' : 'text/plain'});
+    res.end(res.statusCode + ' ' + res.statusMessage)
+});
+
 function coinFlip() {
     return (Math.random() > 0.5 ? "heads" : "tails");
 }
@@ -49,7 +58,6 @@ function countFlips(array) {
 
 function flipACoin(call) {
     var result = coinFlip();
-
     const output = { call: "", flip: "", result: "" };
 
     output.call = call;
@@ -58,15 +66,6 @@ function flipACoin(call) {
 
     return output;
 }
-
-app.get('/app/', (req,res) => {
-    // Respond with status 200
-    res.statusCode = 200;
-    // Respond with status message "OK"
-    res.statusMessage = 'OK';
-    res.writeHead(res.statusCode, {'Content-Type' : 'text/plain'});
-    res.end(res.statusCode + ' ' + res.statusMessage)
-});
 
 app.get('/app/flip', (req,res) => {
     res.send({flip: coinFlip()})
