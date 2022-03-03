@@ -8,16 +8,7 @@ const port = args.port || process.env.PORT || 5000
 
 // Start an app server
 const server = app.listen(port, () => {
-    console.log('App listening on port %PORT%'.replace('%PORT%',port))
-});
-
-app.get('/app/', (req,res) => {
-    // Respond with status 200
-    res.statusCode = 200;
-    // Respond with status message "OK"
-    res.statusMessage = 'OK';
-    res.writeHead(res.statusCode, {'Content-Type' : 'text/plain'});
-    res.end(res.statusCode + ' ' + res.statusMessage)
+    console.log('App listening on port %PORT%'.replace('%PORT%', port))
 });
 
 function coinFlip() {
@@ -67,6 +58,15 @@ function flipACoin(call) {
     return output;
 }
 
+app.get('/app/', (req,res) => {
+    // Respond with status 200
+    res.statusCode = 200;
+    // Respond with status message "OK"
+    res.statusMessage = 'OK';
+    res.writeHead(res.statusCode, {'Content-Type' : 'text/plain'});
+    res.end(res.statusCode + ' ' + res.statusMessage)
+});
+
 app.get('/app/flip', (req,res) => {
     res.send({flip: coinFlip()})
 });
@@ -75,11 +75,11 @@ app.get('/app/flips/:number', (req,res) => {
     res.send(coinFlips(req.params.number))
 });
 
-app.get('/app/flips/call/heads', (req,res) => {
+app.get('/app/flip/call/heads', (req,res) => {
     res.status(200).json(flipACoin("heads"))
 });
 
-app.get('/app/flips/call/tails', (req,res) => {
+app.get('/app/flip/call/tails', (req,res) => {
     res.status(200).json(flipACoin("tails"))
 });
 
